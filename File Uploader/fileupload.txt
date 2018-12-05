@@ -1,0 +1,82 @@
+var multer = require('multer');
+const http = require("http");
+const path = require("path");
+const fs = require("fs");
+
+const express = require("express");
+
+const app = express();
+const httpServer = http.createServer(app);
+
+const PORT = process.env.PORT || 3000;
+
+httpServer.listen(3000, () => {
+  console.log(`Server is listening on port ${PORT}`);
+});
+
+app.get('/index',function(req,res){
+    res.writeHead(200,{'Content-Type':'text/html'});
+    var myReadStream = fs.createReadStream(__dirname + '/index.html','utf8');
+    myReadStream.pipe(res);
+});
+
+// put the HTML file containing your form in a directory named "public" (relative to where this script is located)
+
+app.get("/", express.static(path.join(__dirname, "./public")));
+const handleError = (err, res) => {
+    res
+      .status(500)
+      .contentType("text/plain")
+      .end("Oops! Something went wrong!");
+  };
+  
+  const upload = multer({
+    dest: "./public/files/uploads/"
+    // you might also want to set some limits: https://github.com/expressjs/multer#limits
+  });
+  
+  
+  app.post(
+    "/upload",
+    upload.single("file" /* name attribute of <file> element in your form */),
+    (req, res) => {
+      const tempPath = req.file.path;
+      const targetPath = path.join(__dirname, "./public/files/uploads/image.png");
+  
+      //if (path.extname(req.file.originalname).toLowerCase() === ".png") {
+        fs.rename(tempPath, targetPath, err => {
+          if (err) return handleError(err, res);
+
+          /*res.writeHead(200,{'Content-Type':'text/html'});
+          var myReadStream = fs.createReadStream(__dirname + '/upload.html','utf8');
+          myReadStream.pipe(res);*/
+
+          fs.readFile('./public/files/uploads/image.png', function(err, data) {
+            if (err) throw err; // Fail if the file can't be read.
+            
+            
+              res.writeHead(200, {'Content-Type': 'text/html'});
+              res.write('<html><body><img src="data:image/jpeg;base64,')
+              res.write(Buffer.from(data).toString('base64'));
+              res.end('"/></body></html>');
+          });
+
+          
+
+          /*res
+            .status(200)
+            .contentType("text/plain")
+            .end("File uploaded!");*/
+        });
+     /* } else {
+        fs.unlink(tempPath, err => {
+          if (err) return handleError(err, res);
+  
+          res
+            .status(403)
+            .contentType("text/plain")
+            .end("Only .png files are allowed!");
+        });
+      }*/
+    }
+  );
