@@ -1,0 +1,23 @@
+.horizontal-border {
+    background: #4b69a7;
+    height: 60px;
+    position: relative;
+}
+
+.content-area {
+    height: 100%;
+    display: flex;
+    position: relative;
+}
+
+.vertical-border {
+    width: 5%;
+    height: 100%;
+    background: #32448c;
+    position: absolute;
+}
+
+.content {
+    margin-left: 5%;
+    width: 100%;
+}
