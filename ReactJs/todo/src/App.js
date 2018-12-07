@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Todos from './Todos';
+import AddTodo from './AddTodo';
 import './App.css';
 
 class App extends Component {
@@ -9,17 +10,28 @@ class App extends Component {
       {id:2, content:'play mario kart'}
     ]
   }
+  deleteTodo = (id) => {
+    const todos = this.state.todos.filter(todo =>{
+      return todo.id !== id
+    });
+    this.setState({
+      todos :todos
+    })
+  }
+
+  addTodo = (newTodo) =>{
+    newTodo.id = Math.random();
+    let todos = [...this.state.todos,newTodo];
+    this.setState({
+      todos:todos
+    })
+  }
   render() {
     return (
-      <div className="App">
-        <div className="horizontal-border"></div>
-        <div className="content-area">
-          <div className="vertical-border"></div>
-          <div className="content">
+      <div className="todo-app container">
             <h1 className="center blue-text">Todo's</h1>
-          </div>
-        </div>
-        <Todos todos={this.state.todos} />
+            <Todos todos={this.state.todos} deleteTodo={this.deleteTodo}/>
+            <AddTodo addTodo={this.addTodo}/>
       </div>
     );
   }

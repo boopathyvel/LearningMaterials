@@ -32,9 +32,9 @@ class App extends Component {
     console.log('component mounter');
   }
 
-  componentDidUpdate(){
+  componentDidUpdate(prevProps,prevState){
     console.log('component updated');
-    //console.log(prevProps,prevState);
+    console.log(prevProps,prevState);
   }
   render() {
     return (
