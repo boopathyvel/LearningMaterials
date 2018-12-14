@@ -1,0 +1,46 @@
+import React, { Component } from 'react'
+import '../css-styles/Menu.css';
+
+export default class MenuItems extends Component {
+
+    constructor(props){
+        super(props);
+        this.store = props.store;
+        this.changeMenuOpen = props.changeMenuOpen;
+        this.state = {
+            
+        }
+    }
+
+    handleNewGroup = ()=>{
+        this.changeMenuOpen(false);
+    }
+
+    handleNewBroadcast = ()=>{
+        this.changeMenuOpen(true);
+    }
+
+    handleWhatsAppWeb = ()=>{
+        this.changeMenuOpen(false);
+    }
+
+    handleStarredMessages = ()=>{
+        this.changeMenuOpen(true);
+    }
+
+    handleSettings = ()=>{
+        this.changeMenuOpen(false);
+    }
+
+    render() {
+        return (
+            <div className="menu-items">
+            <div className="menu-item" onClick={this.handleNewGroup}>New group</div>
+            <div className="menu-item" onClick={this.handleNewBroadcast}>New broadcast</div>
+            <div className="menu-item" onClick={this.handleWhatsAppWeb}>WhatsApp Web</div>
+            <div className="menu-item" onClick={this.handleStarredMessages}>Starred messages</div>
+            <div className="menu-item" onClick={this.handleSettings}>Settings</div>
+            </div>
+        )
+    }
+}

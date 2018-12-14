@@ -1,0 +1,51 @@
+.header-section {
+    background: #2f9c34;
+    width: 100%;
+    height: 8%;
+    position: fixed;
+    padding-left: 15px;
+    display: table;
+}
+
+.header-name {
+    display: table-cell;
+    vertical-align: middle;
+    color: white;
+    width: 80%;
+    font-size: larger;
+}
+
+.search-contact-section {
+    display: table-cell;
+    width: 10%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.menu-section {
+    display: table-cell;
+    width: 10%;
+    vertical-align: middle;
+}
+
+.search-contact-back-section {
+    display: table-cell;
+    vertical-align: middle;
+    width: 10%;
+}
+
+.search-contact-input-section {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.search-contact-close-section {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+input.search-contact-input {
+    width: 95%;
+    height: 90%;
+    font-size: x-large;
+}
