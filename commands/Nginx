@@ -1,0 +1,6 @@
+chmod 600 airswap_rsa (600 read write permission)
+ssh -i airswap_rsa ubuntu@nexswap.com
+(rename or move) --->> mv oldfoldername/ newfoldername
+(copy files) --->> cp -r ~/folder1/. ~/new_folder1
+
+ng build --aot --prod --output-hashing none
