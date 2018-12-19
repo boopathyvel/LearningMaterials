@@ -1,3 +1,6 @@
+https://www.hackster.io/pjdecarlo/how-to-make-a-cryptocurrency-using-litecoin-v0-15-source-fb5e82
+https://github.com/litecoin-project/litecoin
+https://github.com/SinduNagalingam/Runway
 sudo apt-get update
 
 sudo apt-get install build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3
