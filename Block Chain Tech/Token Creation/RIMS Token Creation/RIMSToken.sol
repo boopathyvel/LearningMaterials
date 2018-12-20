@@ -83,10 +83,10 @@ contract Owned {
 // ERC20 Token, with the addition of symbol, name and decimals and assisted
 // token transfers
 // ----------------------------------------------------------------------------
-contract OxitaToken is ERC20Interface, Owned, SafeMath {
+contract RIMSToken is ERC20Interface, Owned, SafeMath {
     string public symbol;
     string public  name;
-    uint8 public decimals;
+    uint public decimals;
     uint public _totalSupply;
 
     mapping(address => uint) balances;
@@ -96,12 +96,11 @@ contract OxitaToken is ERC20Interface, Owned, SafeMath {
     // ------------------------------------------------------------------------
     // Constructor
     // ------------------------------------------------------------------------
-    constructor(string _symbol,string _name,uint8 _decimals,
-    			uint totalSupply) public {
+    constructor(string _symbol,string _name,uint _decimals,uint totalSupply) public {
         symbol = _symbol;
         name = _name;
         decimals = _decimals;
-        _totalSupply = totalSupply * (10^decimals);
+        _totalSupply = totalSupply * 10**_decimals;
         balances[msg.sender] = _totalSupply;
         emit Transfer(address(0), msg.sender, _totalSupply);
     }
