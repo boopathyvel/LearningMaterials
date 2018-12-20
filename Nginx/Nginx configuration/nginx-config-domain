@@ -1,0 +1,72 @@
+map $sent_http_content_type $expires {
+    default                    off;
+    text/html                  epoch; #means no cache, as it is not a static page
+    text/css                   max;
+    application/javascript     max;
+    application/woff2          max;
+    ~image/                    30d; #30 days
+}
+
+
+
+server {
+
+        expires $expires;
+
+        root /var/www/nexswap.com/html/;
+
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name nexswap.com www.nexswap.com;
+
+        location /api {
+                proxy_pass http://localhost:3000;
+                proxy_http_version 1.1;
+        }
+
+        location / {
+                alias /var/www/nexswap.com/html/user/;
+                try_files $uri $uri/ /index.html =404;
+        }
+
+
+        listen [::]:443 ssl; # managed by Certbot
+        listen 443 ssl; # managed by Certbot
+        ssl_certificate /etc/letsencrypt/live/admin.nexswap.com/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/admin.nexswap.com/privkey.pem; # managed by Certbot
+        include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+        ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+        # found at https://hynek.me/articles/hardening-your-web-servers-ssl-ciphers/
+        ssl_protocols TLSv1.2;
+        ssl_prefer_server_ciphers Off;
+        ssl_ciphers ECDH+AESGCM:ECDH+CHACHA20:ECDH+AES256:ECDH+AES128:!aNULL:!SHA1;
+
+
+}
+
+
+
+
+server {
+        if ($host = www.nexswap.com) {
+                return 301 https://$host$request_uri;
+        } # managed by Certbot
+
+
+        if ($host = nexswap.com) {
+                return 301 https://$host$request_uri;
+        } # managed by Certbot
+
+
+        listen 80;
+        listen [::]:80;
+
+        server_name nexswap.com www.nexswap.com;
+        return 404; # managed by Certbot
+
+
+
+
+}
+                                                                                                                                                      1,1           Top
+
