@@ -26,3 +26,14 @@ find ./ -type f -readable -writable -exec sed -i "s/LiteCoin/FaithCoin/g" {} \;
 find ./ -type f -readable -writable -exec sed -i "s/LTC/FTH/g" {} \;
 find ./ -type f -readable -writable -exec sed -i "s/litecoin/faithcoin/g" {} \;
 find ./ -type f -readable -writable -exec sed -i "s/litecoind/faithcoind/g" {} \;
+
+find ./ -type f -readable -writable -exec sed -i "s/Runwaycoin/Atlescoin/g" {} \;
+find ./ -type f -readable -writable -exec sed -i "s/RunwayCoin/AtlesCoin/g" {} \;
+find ./ -type f -readable -writable -exec sed -i "s/RWC/ATLES/g" {} \;
+find ./ -type f -readable -writable -exec sed -i "s/runwaycoin/atlescoin/g" {} \;
+find ./ -type f -readable -writable -exec sed -i "s/runwaycoind/atlescoind/g" {} \;
+find ./ -type f -readable -writable -exec sed -i "s/Runway/Atlescoin/g" {} \;
+find ./ -type f -readable -writable -exec sed -i "s/Runway/AtlesCoin/g" {} \;
+find ./ -type f -readable -writable -exec sed -i "s/RWC/ATLES/g" {} \;
+find ./ -type f -readable -writable -exec sed -i "s/runway/atlescoin/g" {} \;
+find ./ -type f -readable -writable -exec sed -i "s/runwayd/atlescoind/g" {} \;
