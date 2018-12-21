@@ -37,3 +37,41 @@ find ./ -type f -readable -writable -exec sed -i "s/Runway/AtlesCoin/g" {} \;
 find ./ -type f -readable -writable -exec sed -i "s/RWC/ATLES/g" {} \;
 find ./ -type f -readable -writable -exec sed -i "s/runway/atlescoin/g" {} \;
 find ./ -type f -readable -writable -exec sed -i "s/runwayd/atlescoind/g" {} \;
+
+
+cd validation.sh -->>(getSubsidy())
+cd amount.sh
+
+make clean
+
+cd Atles
+cd src
+./atlescoind
+
+cd
+paste config file in
+cd /.atlescoin
+paste as atlescoin.conf
+
+listen=1
+addnode=157.230.31.23:62458
+server=1
+rpcuser=something
+rpcpassword=etho
+rpctimeout=30
+#define which servers can call rpc 
+rpcallowip=127.0.0.1
+rpcallowip=
+# Listen for RPC connections on this TCP port:
+#rpcport=9432
+# Set gen=1 to attempt to generate faithcoins
+gen=1
+# Use SSE instructions to try to generate faithcoins faster.
+4way=1
+# Pay an optional transaction fee every time you send faithcoins.  Transactions with fees
+# are more likely than free transactions to be included in generated blocks, so may
+# be validated sooner.
+paytxfee=0.001
+
+
+while :; do   ./atlescoin-cli generate 1; done
