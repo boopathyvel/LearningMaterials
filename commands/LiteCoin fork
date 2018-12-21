@@ -80,3 +80,10 @@ while :; do   ./atlescoin-cli generate 1; done  (--mining--)
 ./atlescoin-cli getbalance ""
 
 https://github.com/iquidus/explorer
+
+./atlescoin-cli getbestblockhash
+hashdata
+./atlescoin-cli getblock "hashdata"
+blockdata
+./atlescoin-cli gettransaction "blockdata"
+
