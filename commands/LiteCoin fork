@@ -39,8 +39,8 @@ find ./ -type f -readable -writable -exec sed -i "s/runway/atlescoin/g" {} \;
 find ./ -type f -readable -writable -exec sed -i "s/runwayd/atlescoind/g" {} \;
 
 
-cd validation.sh -->>(getSubsidy())
-cd amount.sh
+cd validation.cpp -->>(getSubsidy())
+cd amount.h
 
 make clean
 
@@ -74,4 +74,9 @@ gen=1
 paytxfee=0.001
 
 cd Atles/src/
-while :; do   ./atlescoin-cli generate 1; done
+while :; do   ./atlescoin-cli generate 1; done  (--mining--)
+
+./atlescoin-cli help | grep account
+./atlescoin-cli getbalance ""
+
+https://github.com/iquidus/explorer
