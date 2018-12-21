@@ -103,6 +103,7 @@ blockdata
 
 node scripts/sync.js index update
 length of undefined error
+sudo apt install libkrb5-dev
 sudo apt-get install -y libxml2-dev
 
 do this if script is already running 
