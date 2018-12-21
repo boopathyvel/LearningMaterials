@@ -81,9 +81,29 @@ while :; do   ./atlescoin-cli generate 1; done  (--mining--)
 
 https://github.com/iquidus/explorer
 
+in settings.json file
+
 ./atlescoin-cli getbestblockhash
 hashdata
 ./atlescoin-cli getblock "hashdata"
 blockdata
 ./atlescoin-cli gettransaction "blockdata"
 
+ "api": {
+    "blockindex": 0,
+    "blockhash": "0254f5860a59b5915fd304c40063a68c6e2fb2083285c8f7636699c8862b0a05",
+    "txhash": "6c5f27490967e405d9978750c29b102f560e3f18c9811d4deb37d69d23a47374",
+    "address": "AQX1ub43QX6YQwb9F7Xmd3STSpWiArNYCK"
+  },
+
+//genesis
+  "genesis_tx": "00c3c8c8559526c1a63be37cba803d67aee0dd85f1032d75d95a571f0860461b", --> merkle_root from chainparams.cpp
+  "genesis_block": "79fb1f442c9c8488feb0327196aef647f0fed8c12bae39446d999fed8a66051f",  --> genesis_block from chainparams.cpp
+
+
+node scripts/sync.js index update
+length of undefined error
+sudo apt-get install -y libxml2-dev
+
+do this if script is already running 
+rm tmp/index.pid
