@@ -3,7 +3,7 @@ pragma solidity ^0.4.24;
 // ----------------------------------------------------------------------------
 // 'Oxita' token contract
 //
-// Symbol      : OTX
+// Symbol      : OXT
 // Name        : Oxita
 // Total supply: 80000000
 // Decimals    : 16
@@ -100,7 +100,7 @@ contract OxitaToken is ERC20Interface, Owned, SafeMath {
     // Constructor
     // ------------------------------------------------------------------------
     constructor() public {
-        symbol = "OTX";
+        symbol = "OXT";
         name = "Oxita";
         decimals = 16;
         _totalSupply = 800000000000000000000000;
