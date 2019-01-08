@@ -1,0 +1,7 @@
+python -m SimpleHTTPServer 8000
+
+sudo ufw status
+sudo ufw allow 1191/tcp
+
+netstat -nltp
+sudo kill -9 number

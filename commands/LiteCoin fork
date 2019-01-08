@@ -46,7 +46,7 @@ make clean
 
 cd Atles
 cd src
-./atlescoind
+./atlescoind --printtoconsole
 
 cd
 paste config file in
@@ -111,3 +111,11 @@ rm tmp/index.pid
 
 SOLUTION:
 https://github.com/iquidus/explorer/pull/67/files?diff=split
+
+
+To make sync.js to get updated for every second
+crontab -e
+
+(which node) gives node path
+
+*/1 * * * * cd /path/to/explorer && /usr/bin/node scripts/sync.js index update > /dev/null 2>&1
