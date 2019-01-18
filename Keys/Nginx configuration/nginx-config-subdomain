@@ -1,0 +1,43 @@
+map $sent_http_content_type $expires {                                                                                                                              
+  2     default                    off;
+  3     text/html                  epoch; #means no cache, as it is not a static page
+  4     text/css                   max;
+  5     application/javascript     max;
+  6     application/woff2          max;
+  7     ~image/                    30d; #30 days
+  8 }
+  9 
+ 10 server {
+ 11 
+ 12         expires $expires;
+ 13 
+ 14         root /var/www/nexswap.com/html;
+ 15 
+ 16         index index.html index.htm index.nginx-debian.html;
+ 17 
+ 18         server_name admin.nexswap.com;
+ 19 
+ 20         location / {
+ 21                 alias /var/www/nexswap.com/html/admin/;
+ 22                 try_files $uri $uri/ /index.html =404;
+ 23         }
+ 24 
+ 25         # managed by Certbot
+ 26         listen [::]:443 ssl http2;
+ 27         listen 443 ssl http2;
+ 28         ssl_certificate /etc/letsencrypt/live/admin.nexswap.com/fullchain.pem;
+ 29         ssl_certificate_key /etc/letsencrypt/live/admin.nexswap.com/privkey.pem;
+ 30         include /etc/letsencrypt/options-ssl-nginx.conf;
+ 31         ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+ 32 }
+ 34 server {
+ 35         if ($host = admin.nexswap.com) {
+ 36                 return 301 https://$host$request_uri;
+ 37         } # managed by Certbot
+ 38 
+ 39         listen 80;
+ 40         listen [::]:80;
+ 41 
+ 42         server_name admin.nexswap.com;
+ 43         return 404; # managed by Certbot
+ 44 }  
