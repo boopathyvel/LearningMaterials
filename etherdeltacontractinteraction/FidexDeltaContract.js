@@ -23,6 +23,16 @@ FidexDeltaContract.prototype.balanceOf = function(tokenAddress, user) {
     });
 }
 
+FidexDeltaContract.prototype.approve = function(tokenAddress, user) {
+    tokenAddress = '0xDE339cAb2D5e2024e4CfAFa138Cf3915BFd439D5';
+    this.contract.methods.approve(tokenAddress,8000000)
+        .send({'from':this.fidexContract.getCurrentAddress()})
+        .then((success,failure) =>{
+            console.log('err...'+failure);
+            console.log('symbol...'+success);
+    });
+}
+
 FidexDeltaContract.prototype.withdraw = function(ether) {
     this.contract.methods.withdraw(this.web3.utils.toWei('1', 'ether'))
         .send({'from':this.fidexContract.getCurrentAddress()})
