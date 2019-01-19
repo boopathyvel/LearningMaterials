@@ -49,7 +49,7 @@ FidexDeltaContract.prototype.transfer = function() {
 }
 
 FidexDeltaContract.prototype.depositToken = function() {
-    this.contract.methods.depositToken('0xde339cab2d5e2024e4cfafa138cf3915bfd439d5',100)
+    this.contract.methods.depositToken('0xDE339cAb2D5e2024e4CfAFa138Cf3915BFd439D5',100)
         .send({'from':this.fidexContract.getCurrentAddress()})
         .then((success,failure) =>{
             console.log('err...'+failure);
@@ -58,7 +58,7 @@ FidexDeltaContract.prototype.depositToken = function() {
 }
 
 FidexDeltaContract.prototype.withdrawToken = function() {
-    this.contract.methods.withdrawToken('0xde339cab2d5e2024e4cfafa138cf3915bfd439d5',10)
+    this.contract.methods.withdrawToken('0xDE339cAb2D5e2024e4CfAFa138Cf3915BFd439D5',10)
         .send({'from':this.fidexContract.getCurrentAddress()})
         .then((success,failure) =>{
         console.log('err...'+failure);
