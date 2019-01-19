@@ -4,12 +4,11 @@ function FidexContract(web3) {
 }
 
 FidexContract.prototype.getContract = function (){
-    return new this.web3.eth.Contract(this.getContractABI(),'0x27ade28004a6a2f074767596b8ae12c0dd803bf2');
-    //return new this.web3.eth.Contract(this.getContractABI(),'0xec1a8b49d71501fbecb6c052f5c82a52c2628f7c');
-    //return new this.web3.eth.Contract(this.getContractABI(),'0x0135d8aa6695967896b7507cdb8d7e6fc1e9aa27');
-    //return new this.web3.eth.Contract(this.getContractABI(),'0xb639c0b5411e5a99d70ea8af9d0d280a6ccac84f');
-    //return new this.web3.eth.Contract(this.getContractABI(),'0xd42c96f79affffb8f845a52447e2e08504a0ca02');
-    //return new this.web3.eth.Contract(this.getContractABI(),'0xe8c0dcdc296e449d0db0250a77c4bc2e7cf13a30');
+    return new this.web3.eth.Contract(this.getContractABI(),'0x2a32469bfa5faaae351498a2858524419c72bd84');
+}
+
+FidexContract.prototype.getContractAddress = function (){
+    return '0x2a32469bfa5faaae351498a2858524419c72bd84';
 }
 
 FidexContract.prototype.getCurrentAddress = function(){
@@ -18,6 +17,36 @@ FidexContract.prototype.getCurrentAddress = function(){
 
 FidexContract.prototype.getByteCode = function(){
     return '';
+}
+
+FidexContract.prototype.loadAbis = function(abiObjects,tokenArray,index){
+    tokenArray = ['0xde339cab2d5e2024e4cfafa138cf3915bfd439d5'];
+    this.hitAbi(tokenArray[index]).then(function(result) {
+            abiObjects[tokenArray[index]] = JSON.parse(JSON.parse(result).result);
+            console.log("Promise worked");
+            if(tokenArray.length-1 >= index+1){
+                this.loadAbis(abiObjects,tokenArray,index++);
+            }
+    }, function(err) {
+            console.log("Something broke");
+    }.bind(this));
+}
+
+FidexContract.prototype.hitAbi = function(tokenAddress){
+    var promise = new Promise(function(resolve, reject) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                // Typical action to be performed when the document is ready:
+                var response = xhttp.responseText;
+                resolve(response);
+                console.log("ok"+response);
+            }
+        };
+        xhttp.open("GET", "https://api-ropsten.etherscan.io/api?module=contract&action=getabi&address="+tokenAddress, true);
+        xhttp.send();
+    });
+    return promise;
 }
 
 FidexContract.prototype.getContractABI = function(){
@@ -35,197 +64,6 @@ FidexContract.prototype.getContractABI = function(){
                 }
             ],
             "name": "approve",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [
-                {
-                    "name": "tokenGet",
-                    "type": "address"
-                },
-                {
-                    "name": "amountGet",
-                    "type": "uint256"
-                },
-                {
-                    "name": "tokenGive",
-                    "type": "address"
-                },
-                {
-                    "name": "amountGive",
-                    "type": "uint256"
-                },
-                {
-                    "name": "expires",
-                    "type": "uint256"
-                },
-                {
-                    "name": "nonce",
-                    "type": "uint256"
-                },
-                {
-                    "name": "v",
-                    "type": "uint8"
-                },
-                {
-                    "name": "r",
-                    "type": "bytes32"
-                },
-                {
-                    "name": "s",
-                    "type": "bytes32"
-                }
-            ],
-            "name": "cancelOrder",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [
-                {
-                    "name": "accountLevelsAddr_",
-                    "type": "address"
-                }
-            ],
-            "name": "changeAccountLevelsAddr",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [
-                {
-                    "name": "admin_",
-                    "type": "address"
-                }
-            ],
-            "name": "changeAdmin",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [
-                {
-                    "name": "feeAccount_",
-                    "type": "address"
-                }
-            ],
-            "name": "changeFeeAccount",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [
-                {
-                    "name": "feeMake_",
-                    "type": "uint256"
-                }
-            ],
-            "name": "changeFeeMake",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [
-                {
-                    "name": "feeRebate_",
-                    "type": "uint256"
-                }
-            ],
-            "name": "changeFeeRebate",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [
-                {
-                    "name": "feeTake_",
-                    "type": "uint256"
-                }
-            ],
-            "name": "changeFeeTake",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [],
-            "name": "deposit",
-            "outputs": [],
-            "payable": true,
-            "stateMutability": "payable",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [
-                {
-                    "name": "token",
-                    "type": "address"
-                },
-                {
-                    "name": "amount",
-                    "type": "uint256"
-                }
-            ],
-            "name": "depositToken",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [
-                {
-                    "name": "tokenGet",
-                    "type": "address"
-                },
-                {
-                    "name": "amountGet",
-                    "type": "uint256"
-                },
-                {
-                    "name": "tokenGive",
-                    "type": "address"
-                },
-                {
-                    "name": "amountGive",
-                    "type": "uint256"
-                },
-                {
-                    "name": "expires",
-                    "type": "uint256"
-                },
-                {
-                    "name": "nonce",
-                    "type": "uint256"
-                }
-            ],
-            "name": "order",
             "outputs": [],
             "payable": false,
             "stateMutability": "nonpayable",
@@ -289,6 +127,109 @@ FidexContract.prototype.getContractABI = function(){
             "constant": false,
             "inputs": [
                 {
+                    "name": "tokenGet",
+                    "type": "address"
+                },
+                {
+                    "name": "amountGet",
+                    "type": "uint256"
+                },
+                {
+                    "name": "tokenGive",
+                    "type": "address"
+                },
+                {
+                    "name": "amountGive",
+                    "type": "uint256"
+                },
+                {
+                    "name": "expires",
+                    "type": "uint256"
+                },
+                {
+                    "name": "nonce",
+                    "type": "uint256"
+                }
+            ],
+            "name": "order",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "address"
+                },
+                {
+                    "name": "",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "orderFills",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "tokenGet",
+                    "type": "address"
+                },
+                {
+                    "name": "amountGet",
+                    "type": "uint256"
+                },
+                {
+                    "name": "tokenGive",
+                    "type": "address"
+                },
+                {
+                    "name": "amountGive",
+                    "type": "uint256"
+                },
+                {
+                    "name": "expires",
+                    "type": "uint256"
+                },
+                {
+                    "name": "nonce",
+                    "type": "uint256"
+                },
+                {
+                    "name": "v",
+                    "type": "uint8"
+                },
+                {
+                    "name": "r",
+                    "type": "bytes32"
+                },
+                {
+                    "name": "s",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "cancelOrder",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
                     "name": "amount",
                     "type": "uint256"
                 }
@@ -311,10 +252,447 @@ FidexContract.prototype.getContractABI = function(){
                     "type": "uint256"
                 }
             ],
+            "name": "depositToken",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "tokenGet",
+                    "type": "address"
+                },
+                {
+                    "name": "amountGet",
+                    "type": "uint256"
+                },
+                {
+                    "name": "tokenGive",
+                    "type": "address"
+                },
+                {
+                    "name": "amountGive",
+                    "type": "uint256"
+                },
+                {
+                    "name": "expires",
+                    "type": "uint256"
+                },
+                {
+                    "name": "nonce",
+                    "type": "uint256"
+                },
+                {
+                    "name": "user",
+                    "type": "address"
+                },
+                {
+                    "name": "v",
+                    "type": "uint8"
+                },
+                {
+                    "name": "r",
+                    "type": "bytes32"
+                },
+                {
+                    "name": "s",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "amountFilled",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "address"
+                },
+                {
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "name": "tokens",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "feeMake_",
+                    "type": "uint256"
+                }
+            ],
+            "name": "changeFeeMake",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "feeMake",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "feeRebate_",
+                    "type": "uint256"
+                }
+            ],
+            "name": "changeFeeRebate",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "feeAccount",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "tokenGet",
+                    "type": "address"
+                },
+                {
+                    "name": "amountGet",
+                    "type": "uint256"
+                },
+                {
+                    "name": "tokenGive",
+                    "type": "address"
+                },
+                {
+                    "name": "amountGive",
+                    "type": "uint256"
+                },
+                {
+                    "name": "expires",
+                    "type": "uint256"
+                },
+                {
+                    "name": "nonce",
+                    "type": "uint256"
+                },
+                {
+                    "name": "user",
+                    "type": "address"
+                },
+                {
+                    "name": "v",
+                    "type": "uint8"
+                },
+                {
+                    "name": "r",
+                    "type": "bytes32"
+                },
+                {
+                    "name": "s",
+                    "type": "bytes32"
+                },
+                {
+                    "name": "amount",
+                    "type": "uint256"
+                },
+                {
+                    "name": "sender",
+                    "type": "address"
+                }
+            ],
+            "name": "testTrade",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "feeAccount_",
+                    "type": "address"
+                }
+            ],
+            "name": "changeFeeAccount",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "feeRebate",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "feeTake_",
+                    "type": "uint256"
+                }
+            ],
+            "name": "changeFeeTake",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "admin_",
+                    "type": "address"
+                }
+            ],
+            "name": "changeAdmin",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "token",
+                    "type": "address"
+                },
+                {
+                    "name": "amount",
+                    "type": "uint256"
+                }
+            ],
             "name": "withdrawToken",
             "outputs": [],
             "payable": false,
             "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "address"
+                },
+                {
+                    "name": "",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "orders",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "feeTake",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [],
+            "name": "deposit",
+            "outputs": [],
+            "payable": true,
+            "stateMutability": "payable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "accountLevelsAddr_",
+                    "type": "address"
+                }
+            ],
+            "name": "changeAccountLevelsAddr",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "accountLevelsAddr",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "token",
+                    "type": "address"
+                },
+                {
+                    "name": "user",
+                    "type": "address"
+                }
+            ],
+            "name": "balanceOf",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "admin",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "tokenGet",
+                    "type": "address"
+                },
+                {
+                    "name": "amountGet",
+                    "type": "uint256"
+                },
+                {
+                    "name": "tokenGive",
+                    "type": "address"
+                },
+                {
+                    "name": "amountGive",
+                    "type": "uint256"
+                },
+                {
+                    "name": "expires",
+                    "type": "uint256"
+                },
+                {
+                    "name": "nonce",
+                    "type": "uint256"
+                },
+                {
+                    "name": "user",
+                    "type": "address"
+                },
+                {
+                    "name": "v",
+                    "type": "uint8"
+                },
+                {
+                    "name": "r",
+                    "type": "bytes32"
+                },
+                {
+                    "name": "s",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "availableVolume",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
             "type": "function"
         },
         {
@@ -542,355 +920,6 @@ FidexContract.prototype.getContractABI = function(){
             ],
             "name": "Withdraw",
             "type": "event"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "accountLevelsAddr",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "admin",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [
-                {
-                    "name": "tokenGet",
-                    "type": "address"
-                },
-                {
-                    "name": "amountGet",
-                    "type": "uint256"
-                },
-                {
-                    "name": "tokenGive",
-                    "type": "address"
-                },
-                {
-                    "name": "amountGive",
-                    "type": "uint256"
-                },
-                {
-                    "name": "expires",
-                    "type": "uint256"
-                },
-                {
-                    "name": "nonce",
-                    "type": "uint256"
-                },
-                {
-                    "name": "user",
-                    "type": "address"
-                },
-                {
-                    "name": "v",
-                    "type": "uint8"
-                },
-                {
-                    "name": "r",
-                    "type": "bytes32"
-                },
-                {
-                    "name": "s",
-                    "type": "bytes32"
-                }
-            ],
-            "name": "amountFilled",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [
-                {
-                    "name": "tokenGet",
-                    "type": "address"
-                },
-                {
-                    "name": "amountGet",
-                    "type": "uint256"
-                },
-                {
-                    "name": "tokenGive",
-                    "type": "address"
-                },
-                {
-                    "name": "amountGive",
-                    "type": "uint256"
-                },
-                {
-                    "name": "expires",
-                    "type": "uint256"
-                },
-                {
-                    "name": "nonce",
-                    "type": "uint256"
-                },
-                {
-                    "name": "user",
-                    "type": "address"
-                },
-                {
-                    "name": "v",
-                    "type": "uint8"
-                },
-                {
-                    "name": "r",
-                    "type": "bytes32"
-                },
-                {
-                    "name": "s",
-                    "type": "bytes32"
-                }
-            ],
-            "name": "availableVolume",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [
-                {
-                    "name": "token",
-                    "type": "address"
-                },
-                {
-                    "name": "user",
-                    "type": "address"
-                }
-            ],
-            "name": "balanceOf",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "feeAccount",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "feeMake",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "feeRebate",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "feeTake",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [
-                {
-                    "name": "",
-                    "type": "address"
-                },
-                {
-                    "name": "",
-                    "type": "bytes32"
-                }
-            ],
-            "name": "orderFills",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [
-                {
-                    "name": "",
-                    "type": "address"
-                },
-                {
-                    "name": "",
-                    "type": "bytes32"
-                }
-            ],
-            "name": "orders",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "bool"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [
-                {
-                    "name": "tokenGet",
-                    "type": "address"
-                },
-                {
-                    "name": "amountGet",
-                    "type": "uint256"
-                },
-                {
-                    "name": "tokenGive",
-                    "type": "address"
-                },
-                {
-                    "name": "amountGive",
-                    "type": "uint256"
-                },
-                {
-                    "name": "expires",
-                    "type": "uint256"
-                },
-                {
-                    "name": "nonce",
-                    "type": "uint256"
-                },
-                {
-                    "name": "user",
-                    "type": "address"
-                },
-                {
-                    "name": "v",
-                    "type": "uint8"
-                },
-                {
-                    "name": "r",
-                    "type": "bytes32"
-                },
-                {
-                    "name": "s",
-                    "type": "bytes32"
-                },
-                {
-                    "name": "amount",
-                    "type": "uint256"
-                },
-                {
-                    "name": "sender",
-                    "type": "address"
-                }
-            ],
-            "name": "testTrade",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "bool"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [
-                {
-                    "name": "",
-                    "type": "address"
-                },
-                {
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "name": "tokens",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
         }
     ];
 }

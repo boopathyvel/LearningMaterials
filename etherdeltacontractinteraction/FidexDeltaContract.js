@@ -2,6 +2,8 @@ function FidexDeltaContract() {
     this.web3 = new Web3(web3.currentProvider);
     this.fidexContract = new FidexContract(this.web3);
     this.contract = this.fidexContract.getContract();
+    this.abiObjects = {};
+    this.fidexContract.loadAbis(this.abiObjects,[],0);
 }
   
 FidexDeltaContract.prototype.deposit = function(ether) {
@@ -16,6 +18,7 @@ FidexDeltaContract.prototype.deposit = function(ether) {
 
 FidexDeltaContract.prototype.balanceOf = function(tokenAddress, user) {
     tokenAddress = '0x0000000000000000000000000000000000000000';
+    tokenAddress = '0xde339cab2d5e2024e4cfafa138cf3915bfd439d5';
     user = this.fidexContract.getCurrentAddress();
     this.contract.methods.balanceOf(tokenAddress,user).call((success,failure)=>{
         console.log('err...'+failure);
@@ -24,8 +27,10 @@ FidexDeltaContract.prototype.balanceOf = function(tokenAddress, user) {
 }
 
 FidexDeltaContract.prototype.approve = function(tokenAddress, user) {
-    tokenAddress = '0xDE339cAb2D5e2024e4CfAFa138Cf3915BFd439D5';
-    this.contract.methods.approve(tokenAddress,8000000)
+    tokenAddress = '0xde339cab2d5e2024e4cfafa138cf3915bfd439d5';
+    let contractAbi = this.abiObjects[tokenAddress];
+    let contractInstance = new this.web3.eth.Contract(contractAbi,tokenAddress);
+    contractInstance.methods.approve(this.fidexContract.getContractAddress(),8000000000000)
         .send({'from':this.fidexContract.getCurrentAddress()})
         .then((success,failure) =>{
             console.log('err...'+failure);
@@ -49,7 +54,7 @@ FidexDeltaContract.prototype.transfer = function() {
 }
 
 FidexDeltaContract.prototype.depositToken = function() {
-    this.contract.methods.depositToken('0xDE339cAb2D5e2024e4CfAFa138Cf3915BFd439D5',100)
+    this.contract.methods.depositToken('0xde339cab2d5e2024e4cfafa138cf3915bfd439d5',1000000000000)
         .send({'from':this.fidexContract.getCurrentAddress()})
         .then((success,failure) =>{
             console.log('err...'+failure);
@@ -58,7 +63,7 @@ FidexDeltaContract.prototype.depositToken = function() {
 }
 
 FidexDeltaContract.prototype.withdrawToken = function() {
-    this.contract.methods.withdrawToken('0xDE339cAb2D5e2024e4CfAFa138Cf3915BFd439D5',10)
+    this.contract.methods.withdrawToken('0xde339cab2d5e2024e4cfafa138cf3915bfd439d5',100000000000)
         .send({'from':this.fidexContract.getCurrentAddress()})
         .then((success,failure) =>{
         console.log('err...'+failure);
