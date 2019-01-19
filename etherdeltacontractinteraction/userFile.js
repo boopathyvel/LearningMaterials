@@ -1,10 +1,7 @@
 window.fidex = new FidexDeltaContract();  
 document.addEventListener('click', function (event) {
             if (event.target.id === 'deposit'){
-                window.fidex.deposit().then(function(data,err) {
-                    console.log(data);
-                    console.log(err);
-                });
+                window.fidex.deposit();
             }else if (event.target.id === 'withdraw'){
                 window.fidex.withdraw();
             }else if (event.target.id === 'transfer'){
