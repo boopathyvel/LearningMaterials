@@ -30,7 +30,7 @@ FidexDeltaContract.prototype.approve = function(tokenAddress, user) {
     tokenAddress = '0xde339cab2d5e2024e4cfafa138cf3915bfd439d5';
     let contractAbi = this.abiObjects[tokenAddress];
     let contractInstance = new this.web3.eth.Contract(contractAbi,tokenAddress);
-    contractInstance.methods.approve(this.fidexContract.getContractAddress(),8000000000000)
+    contractInstance.methods.approve(this.fidexContract.getContractAddress(),5000000000000)
         .send({'from':this.fidexContract.getCurrentAddress()})
         .then((success,failure) =>{
             console.log('err...'+failure);

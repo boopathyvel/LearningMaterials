@@ -4,11 +4,11 @@ function FidexContract(web3) {
 }
 
 FidexContract.prototype.getContract = function (){
-    return new this.web3.eth.Contract(this.getContractABI(),'0x2a32469bfa5faaae351498a2858524419c72bd84');
+    return new this.web3.eth.Contract(this.getContractABI(),'0xa50a8c0f68de5768c5cbf33fa66c9caef9bef7cd');
 }
 
 FidexContract.prototype.getContractAddress = function (){
-    return '0x2a32469bfa5faaae351498a2858524419c72bd84';
+    return '0xa50a8c0f68de5768c5cbf33fa66c9caef9bef7cd';
 }
 
 FidexContract.prototype.getCurrentAddress = function(){

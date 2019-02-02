@@ -1,0 +1,16 @@
+1) tecmint@TecMint:~$ sudo apt install neofetch
+[sudo] password for tecmint:
+E: Could not get lock /var/lib/dpkg/lock - open (11: Resource temporarily unavailable)
+E: Unable to lock the administration directory (/var/lib/dpkg), is another process using it?
+
+ps -A | grep apt
+
+$ sudo kill -9 processnumber
+OR
+$ sudo kill -SIGKILL processnumber
+
+sudo rm /var/lib/dpkg/lock	
+sudo dpkg --configure -a
+sudo rm /var/lib/apt/lists/lock
+sudo rm /var/cache/apt/archives/lock
+sudo apt update
