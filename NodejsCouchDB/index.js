@@ -28,6 +28,7 @@ contractInstance.events.Order().on("data", function(event) {
     expires:returnData['expires'],
     nonce:returnData['nonce'],
     user:returnData['user'],
+    singleTokenValue:returnData['singleTokenValue'],
     orderType:returnData['orderType']
    }
    dboperations.insertOrders(orderDetail);

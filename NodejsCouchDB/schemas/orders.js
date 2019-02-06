@@ -1,14 +1,15 @@
 var Joi = require('joi');
 
 module.exports = Joi.object().keys({  
-    orderId:Joi.string(),
+    user:Joi.string().required(),
+    orderId:Joi.string().required(),
     orderFill:Joi.string(),
     tokenGet:Joi.string(),
     amountGet:Joi.string(),
     tokenGive:Joi.string(),
     amountGive:Joi.string(),
+    singleTokenValue:Joi.string(),
     expires:Joi.string(),
     nonce:Joi.string(),
-    user:Joi.string(),
     orderType:Joi.string()
 });
