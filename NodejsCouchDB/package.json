@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "async": "^2.6.1",
+    "boom": "^7.3.0",
     "ethjs-contract": "^0.2.3",
     "ethjs-query": "^0.3.8",
     "express": "^4.16.4",
