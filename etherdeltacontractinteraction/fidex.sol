@@ -93,8 +93,8 @@ contract EtherDelta is SafeMath {
   mapping (address => mapping (bytes32 => bool)) public orders; //mapping of user accounts to mapping of order hashes to booleans (true = submitted by user, equivalent to offchain signature)
   mapping (address => mapping (bytes32 => uint)) public orderFills; //mapping of user accounts to mapping of order hashes to uints (amount of order that has been filled)
 
-  event Order(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address user,uint singleTokenValue, string orderType);
-  event Cancel(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address user, uint8 v, bytes32 r, bytes32 s);
+  event Order(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address user,uint singleTokenValue, string orderType, uint blockNo);
+  event Cancel(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address user);
   event Trade(address tokenGet, uint amountGet, address tokenGive, uint amountGive, address get, address give);
   event Deposit(address token, address user, uint amount, uint balance);
   event Withdraw(address token, address user, uint amount, uint balance);
@@ -151,7 +151,7 @@ contract EtherDelta is SafeMath {
   }
 
   function withdraw(uint amount)public {
-    require (tokens[0][msg.sender] > amount);
+    require (tokens[0][msg.sender] >= amount);
     tokens[0][msg.sender] = safeSub(tokens[0][msg.sender], amount);
     require (msg.sender.call.value(amount)()) ;
     emit Withdraw(0, msg.sender, amount, tokens[0][msg.sender]);
@@ -167,7 +167,7 @@ contract EtherDelta is SafeMath {
 
   function withdrawToken(address token, uint amount) public {
     require (token!=0) ;
-    require (tokens[token][msg.sender] > amount) ;
+    require (tokens[token][msg.sender] >= amount) ;
     tokens[token][msg.sender] = safeSub(tokens[token][msg.sender], amount);
     require (Token(token).transfer(msg.sender, amount)) ;
     emit Withdraw(token, msg.sender, amount, tokens[token][msg.sender]);
@@ -181,20 +181,19 @@ contract EtherDelta is SafeMath {
       uint expires, uint nonce,uint singleTokenValue, string orderType) public{
     bytes32 hash = sha256(abi.encodePacked(this, tokenGet, amountGet, tokenGive, amountGive, expires, nonce));
     orders[msg.sender][hash] = true;
-    emit Order(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, msg.sender,singleTokenValue,orderType);
+    emit Order(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, msg.sender,singleTokenValue,orderType,block.number);
   }
 
-  function trade(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address user, uint8 v, bytes32 r, bytes32 s, uint amount) public {
+  function trade(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address user, uint amount) public {
     //amount is in amountGet terms
     bytes32 hash = sha256(abi.encodePacked(this, tokenGet, amountGet, tokenGive, amountGive, expires, nonce));
-    require (
-      (orders[user][hash] || ecrecover(keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", hash)),v,r,s) == user) &&
-      block.number <= expires &&
-      safeAdd(orderFills[user][hash], amount) <= amountGet
-    );
+ 
+    require (orders[user][hash] && block.number <= expires && safeAdd(orderFills[user][hash], amount) <= amountGet);
+    
     tradeBalances(tokenGet, amountGet, tokenGive, amountGive, user, amount);
     orderFills[user][hash] = safeAdd(orderFills[user][hash], amount);
     emit Trade(tokenGet, amount, tokenGive, amountGive * amount / amountGet, user, msg.sender);
+    // anjali
   }
 
   function tradeBalances(address tokenGet, uint amountGet, address tokenGive, uint amountGive, address user, uint amount) private {
@@ -238,10 +237,10 @@ contract EtherDelta is SafeMath {
     return orderFills[user][hash];
   }
 
-  function cancelOrder(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, uint8 v, bytes32 r, bytes32 s) public{
+  function cancelOrder(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce) public{
     bytes32 hash = sha256(abi.encodePacked(this, tokenGet, amountGet, tokenGive, amountGive, expires, nonce));
-    require (orders[msg.sender][hash] || ecrecover(keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", hash)),v,r,s) == msg.sender);
+    require (orders[msg.sender][hash]);
     orderFills[msg.sender][hash] = amountGet;
-    emit Cancel(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, msg.sender, v, r, s);
+    emit Cancel(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, msg.sender);
   }
 }

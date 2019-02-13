@@ -20,15 +20,13 @@ FidexContract.prototype.getByteCode = function(){
 }
 
 FidexContract.prototype.loadAbis = function(abiObjects,tokenArray,index){
-    tokenArray = ['0xde339cab2d5e2024e4cfafa138cf3915bfd439d5'];
+    tokenArray = ['0xde339cab2d5e2024e4cfafa138cf3915bfd439d5','0x266e2bf41dd505115069774c15472a0a20d1cade'];
     this.hitAbi(tokenArray[index]).then(function(result) {
             abiObjects[tokenArray[index]] = JSON.parse(JSON.parse(result).result);
             console.log("Promise worked");
             if(tokenArray.length-1 >= index+1){
-                this.loadAbis(abiObjects,tokenArray,index++);
+                this.loadAbis(abiObjects,tokenArray,++index);
             }
-    }, function(err) {
-            console.log("Something broke");
     }.bind(this));
 }
 

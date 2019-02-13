@@ -27,7 +27,7 @@ FidexDeltaContract.prototype.balanceOf = function(tokenAddress, user) {
 }
 
 FidexDeltaContract.prototype.approve = function(tokenAddress, user) {
-    tokenAddress = '0xde339cab2d5e2024e4cfafa138cf3915bfd439d5';
+    tokenAddress = '0x266e2bf41dd505115069774c15472a0a20d1cade';
     let contractAbi = this.abiObjects[tokenAddress];
     let contractInstance = new this.web3.eth.Contract(contractAbi,tokenAddress);
     contractInstance.methods.approve(this.fidexContract.getContractAddress(),5000000000000)
