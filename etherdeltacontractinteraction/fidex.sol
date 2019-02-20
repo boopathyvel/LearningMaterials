@@ -94,8 +94,8 @@ contract EtherDelta is SafeMath {
   mapping (address => mapping (bytes32 => uint)) public orderFills; //mapping of user accounts to mapping of order hashes to uints (amount of order that has been filled)
 
   event Order(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address user,uint singleTokenValue, string orderType, uint blockNo);
-  event Cancel(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address user);
-  event Trade(address tokenGet, uint amountGet, address tokenGive, uint amountGive, address get, address give);
+  event Cancel(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address user,string orderId);
+  event Trade(address tokenGet, uint amountGet,uint amountReceived, address tokenGive, uint amountGive,uint amountSent, address get, address give,string orderId,uint orderFills);
   event Deposit(address token, address user, uint amount, uint balance);
   event Withdraw(address token, address user, uint amount, uint balance);
 
@@ -184,15 +184,18 @@ contract EtherDelta is SafeMath {
     emit Order(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, msg.sender,singleTokenValue,orderType,block.number);
   }
 
-  function trade(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address user, uint amount) public {
+  function trade(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address user, 
+            uint amount, uint oldBlockNumber,string orderId) public {
     //amount is in amountGet terms
     bytes32 hash = sha256(abi.encodePacked(this, tokenGet, amountGet, tokenGive, amountGive, expires, nonce));
  
-    require (orders[user][hash] && block.number <= expires && safeAdd(orderFills[user][hash], amount) <= amountGet);
+    require (orders[user][hash] && block.number <= (oldBlockNumber + expires) && safeAdd(orderFills[user][hash], amount) <= amountGet);
     
     tradeBalances(tokenGet, amountGet, tokenGive, amountGive, user, amount);
     orderFills[user][hash] = safeAdd(orderFills[user][hash], amount);
-    emit Trade(tokenGet, amount, tokenGive, amountGive * amount / amountGet, user, msg.sender);
+    uint orderFilled = orderFills[user][hash];
+    uint amountSent = (amountGive * amount / amountGet);
+    emit Trade(tokenGet, amountGet, amount, tokenGive, amountGive, amountSent, user, msg.sender, orderId, orderFilled);
     // anjali
   }
 
@@ -237,10 +240,10 @@ contract EtherDelta is SafeMath {
     return orderFills[user][hash];
   }
 
-  function cancelOrder(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce) public{
+  function cancelOrder(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, string orderId) public{
     bytes32 hash = sha256(abi.encodePacked(this, tokenGet, amountGet, tokenGive, amountGive, expires, nonce));
     require (orders[msg.sender][hash]);
     orderFills[msg.sender][hash] = amountGet;
-    emit Cancel(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, msg.sender);
+    emit Cancel(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, msg.sender,orderId);
   }
 }
