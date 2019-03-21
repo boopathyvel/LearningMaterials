@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"path": "etherdeltacontractinteraction"
+		},
+		{
+			"path": "/home/css/MyLife/Projects/FidexDelta/fidex_new_ui"
+		},
+		{
+			"path": "/home/css/MyLife/Projects/FidexDelta/fidexdeltabackend"
+		},
+		{
+			"path": "/home/css/MyLife/Projects/FidexDelta/fidex_expiry_updated"
+		},
+		{
+			"path": "/home/css/MyLife/Projects/FidexDelta/test"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "fidex_new_ui"
+	}
+}
