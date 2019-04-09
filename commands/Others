@@ -11,3 +11,7 @@ browserify index.js -o browserified.js
 
 scp -i ~/MyLife/GIT/LearningMaterials/Nginx/Appoets\ keys/id_demo_rsa root@178.128.200.251:/root/coinsourcecode/src/kunocoind .
 kunocoind 
+
+
+delete file except few...
+ls | grep -v *.conf | xargs rm -r
