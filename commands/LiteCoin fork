@@ -119,3 +119,5 @@ crontab -e
 (which node) gives node path
 
 */1 * * * * cd /path/to/explorer && /usr/bin/node scripts/sync.js index update > /dev/null 2>&1
+
+example : */1 * * * * cd ~/explorer && /root/.nvm/versions/node/v12.4.0/bin/node scripts/sync.js index update > ~/cronlog.txt
