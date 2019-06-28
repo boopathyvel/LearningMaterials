@@ -42,6 +42,8 @@ find ./ -type f -readable -writable -exec sed -i "s/runwayd/atlescoind/g" {} \;
 cd validation.cpp -->>(getSubsidy())
 cd amount.h
 
+Block Creation : will be block-1 specified in Chainparams.cpp
+
 make clean
 
 cd Atles
